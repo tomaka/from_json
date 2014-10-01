@@ -9,6 +9,7 @@ extern crate serialize;
 #[from_json_struct]
 struct Test {
     a: int,
+    #[from_json_name = "real_b"]
     b: bool,
     c: Test2,
     d: Option<String>,
@@ -24,7 +25,7 @@ struct Test2 {
 fn test() {
     use from_json::FromJson;
 
-    let json = serialize::json::from_str(r#"{ "a": 5, "b": true, "c": { "e": "hello", "f": false } }"#).unwrap();
+    let json = serialize::json::from_str(r#"{ "a": 5, "real_b": true, "c": { "e": "hello", "f": false } }"#).unwrap();
 
     let content: Test = FromJson::from_json(&json).unwrap();
 

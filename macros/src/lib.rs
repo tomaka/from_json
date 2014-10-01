@@ -81,14 +81,39 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
     let struct_name = struct_name.as_slice();
 
     match substr.fields {
-        &generic::StaticStruct(_, generic::Named(ref fields)) => {
+        &generic::StaticStruct(ref definition, generic::Named(_)) => {
+            use syntax::attr::AttrMetaMethods;
+
+            let ref fields = definition.fields;
+
             let content = fields.iter()
-                .map(|&(ident, _)| {
+                .map(|&ast::StructField { ref node, .. }| {
+                    let ident = node.ident().unwrap();
                     let ident_str = token::get_ident(ident);
-                    let ident_str = ident_str.get();
+
+                    let json_name = node.attrs.iter()
+                        .find(|a| a.check_name("from_json_name"))
+                        .and_then(|e| {
+                            match e.node.value.node {
+                                ast::MetaNameValue(_, ref value) => Some(value),
+                                _ => None
+                            }
+                        })
+                        .and_then(|value| {
+                            match value.node {
+                                ast::LitStr(ref s, _) => Some(s.get().to_string()),
+                                _ => {
+                                    ecx.span_err(span.clone(), "from_json_name requires \
+                                                                a string literal");
+                                    None
+                                }
+                            }
+                        })
+                        .unwrap_or(ident_str.get().to_string());
+                    let json_name = json_name.as_slice();
 
                     let member_assign = quote_expr!(ecx, {
-                        match $input_param.find(&$ident_str.to_string()) {
+                        match $input_param.find(&$json_name.to_string()) {
                             Some(elem) => match ::from_json::FromJson::from_json(elem) {
                                 Ok(value) => value,
                                 Err(e) => return Err(e)
@@ -96,7 +121,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                             None => match ::from_json::FromJson::from_json(&::serialize::json::Null) {
                                 Ok(value) => value,
                                 Err(::from_json::ExpectError(_, _)) => return Err(
-                                    ::from_json::FieldNotFound($ident_str, $input_param.clone())),
+                                    ::from_json::FieldNotFound($json_name, $input_param.clone())),
                                 Err(e) => return Err(e)
                             }
                         }
