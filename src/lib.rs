@@ -5,6 +5,8 @@
 Crate that allows you to easily turn JSON into objects. It is easier to use
 and cleaner than the standard `Decodable` trait.
 
+See the documentation of `from_json_macros` for a real-life example.
+
 */
 
 #![feature(if_let)]
@@ -31,7 +33,7 @@ pub enum FromJsonError {
     FieldNotFound(&'static str, json::Json),
 }
 
-/// Trait that turns JSON into an object.
+/// Trait that attempts to read an object from a JSON object.
 pub trait FromJson {
     /// Builds the object from JSON.
     fn from_json(&json::Json) -> Result<Self, FromJsonError>;

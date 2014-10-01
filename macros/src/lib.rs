@@ -1,3 +1,58 @@
+/*!
+
+# from_json_macros
+
+This crate defines two attributes:
+
+ - `from_json_struct`: Derives `from_json::FromJson` for your structure.
+ - `from_json_name`: Specifies the name of a field.
+
+## from_json_struct
+
+This attribute will attempt to read the structure from a JSON object.
+
+If a field is not found, a `from_json::FieldNotFound` error is produced.
+If you attempt to read from a non-object, a `from_json::ExpectError` is produced.
+
+If one of the field has an attribute `from_json_name`, then this name will be used
+ instead of the field name.
+
+## Example
+
+```
+#![feature(phase)]
+
+#[phase(plugin)]
+extern crate from_json_macros;
+extern crate from_json;
+extern crate serialize;
+
+#[from_json_struct]
+struct Foo {
+    a: int,
+    #[from_json_name = "real_b"]
+    b: bool,
+    c: Bar,
+}
+
+#[from_json_struct]
+struct Bar {
+    e: Option<bool>,
+    #[from_json_name = "type"]
+    type_: String,
+}
+
+fn main() {
+    use from_json::FromJson;
+
+    let json = serialize::json::from_str(r#"{ "a": 5, "real_b": true, "c": { "e": false, "type": "hello" } }"#).unwrap();
+
+    let _content: Foo = FromJson::from_json(&json).unwrap();
+}
+```
+
+*/
+
 #![feature(plugin_registrar)]
 #![feature(quote)]
 

@@ -7,3 +7,6 @@ authors = ["Pierre Krieger <pierre.krieger1708@gmail.com>"]
 name = "from_json_macros"
 path = "src/lib.rs"
 plugin = true
+
+[dev-dependencies.from_json]
+path = ".."
