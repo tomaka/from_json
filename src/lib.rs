@@ -43,15 +43,20 @@ macro_rules! number_impl(
     ($t:ty) => (
         impl FromJson for $t {
             fn from_json(input: &json::Json) -> Result<$t, FromJsonError> {
-                use std::num::Bounded;
+                //use std::num::Bounded;
 
-                let my_min: $t = Bounded::min_value();
-                let my_max: $t = Bounded::max_value();
+                //let my_min: $t = Bounded::min_value();
+                //let my_max: $t = Bounded::max_value();
 
                 match input {
-                    &json::I64(value) if value >= my_min as i64 && value <= my_max as i64 => Ok(value as $t),
+                    // TODO: find out why this doesn't work
+                    /*&json::I64(value) if value >= my_min as i64 && value <= my_max as i64 => Ok(value as $t),
                     &json::U64(value) if value <= my_max as u64 => Ok(value as $t),
-                    &json::F64(value) if value >= my_min as f64 && value <= my_max as f64 => Ok(value as $t),
+                    &json::F64(value) if value >= my_min as f64 && value <= my_max as f64 => Ok(value as $t),*/
+
+                    &json::I64(value) => Ok(value as $t),
+                    &json::U64(value) => Ok(value as $t),
+                    &json::F64(value) => Ok(value as $t),
                     _ => Err(ExpectError("integer", input.clone()))
                 }
             }
