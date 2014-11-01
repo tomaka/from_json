@@ -11,7 +11,7 @@ See the documentation of `from_json_macros` for a real-life example.
 
 #![feature(if_let)]
 #![feature(macro_rules)]
-#![deny(missing_doc)]
+#![deny(missing_docs)]
 #![deny(warnings)]
 
 extern crate serialize;
