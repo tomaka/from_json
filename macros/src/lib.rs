@@ -168,7 +168,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                     let json_name = json_name.as_slice();
 
                     let member_assign = quote_expr!(ecx, {
-                        match $input_param.find(&$json_name.to_string()) {
+                        match $input_param.find($json_name) {
                             Some(elem) => match ::from_json::FromJson::from_json(elem) {
                                 Ok(value) => value,
                                 Err(e) => return Err(e)
