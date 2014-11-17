@@ -207,7 +207,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
         _ => {
             ecx.span_err(span, "Unable to implement `from_json_struct` \
                                 on a non-structure");
-            ecx.expr_lit(span, ast::LitNil)
+            ecx.expr_int(span, 0)
         }
     }
 }
