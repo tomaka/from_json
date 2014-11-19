@@ -57,7 +57,7 @@ macro_rules! number_impl(
                     &json::I64(value) => Ok(value as $t),
                     &json::U64(value) => Ok(value as $t),
                     &json::F64(value) => Ok(value as $t),
-                    _ => Err(ExpectError("integer", input.clone()))
+                    _ => Err(FromJsonError::ExpectError("integer", input.clone()))
                 }
             }
         }
@@ -81,7 +81,7 @@ impl FromJson for bool {
     fn from_json(input: &json::Json) -> Result<bool, FromJsonError> {
         match input {
             &json::Boolean(value) => Ok(value),
-            _ => Err(ExpectError("boolean", input.clone()))
+            _ => Err(FromJsonError::ExpectError("boolean", input.clone()))
         }
     }
 }
@@ -90,7 +90,7 @@ impl FromJson for String {
     fn from_json(input: &json::Json) -> Result<String, FromJsonError> {
         match input {
             &json::String(ref value) => Ok(value.clone()),
-            _ => Err(ExpectError("string", input.clone()))
+            _ => Err(FromJsonError::ExpectError("string", input.clone()))
         }
     }
 }
@@ -121,7 +121,7 @@ impl<T: FromJson> FromJson for Vec<T> {
             Ok(result)
 
         } else {
-            Err(ExpectError("list", input.clone()))
+            Err(FromJsonError::ExpectError("list", input.clone()))
         }
     }
 }
@@ -141,7 +141,7 @@ impl<T: FromJson> FromJson for HashMap<String, T> {
             Ok(result)
 
         } else {
-            Err(ExpectError("object", input.clone()))
+            Err(FromJsonError::ExpectError("object", input.clone()))
         }
     }
 }
