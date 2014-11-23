@@ -108,7 +108,7 @@ impl<T: FromJson> FromJson for Option<T> {
 
 impl<T: FromJson> FromJson for Vec<T> {
     fn from_json(input: &json::Json) -> Result<Vec<T>, FromJsonError> {
-        if let Some(ref list) = input.as_list() {
+        if let Some(ref list) = input.as_array() {
             let mut result = Vec::with_capacity(list.len());
 
             for element in list.iter() {
