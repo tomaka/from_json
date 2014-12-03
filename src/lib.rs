@@ -50,13 +50,13 @@ macro_rules! number_impl(
 
                 match input {
                     // TODO: find out why this doesn't work
-                    /*&json::I64(value) if value >= my_min as i64 && value <= my_max as i64 => Ok(value as $t),
-                    &json::U64(value) if value <= my_max as u64 => Ok(value as $t),
-                    &json::F64(value) if value >= my_min as f64 && value <= my_max as f64 => Ok(value as $t),*/
+                    /*&json::Json::I64(value) if value >= my_min as i64 && value <= my_max as i64 => Ok(value as $t),
+                    &json::Json::U64(value) if value <= my_max as u64 => Ok(value as $t),
+                    &json::Json::F64(value) if value >= my_min as f64 && value <= my_max as f64 => Ok(value as $t),*/
 
-                    &json::I64(value) => Ok(value as $t),
-                    &json::U64(value) => Ok(value as $t),
-                    &json::F64(value) => Ok(value as $t),
+                    &json::Json::I64(value) => Ok(value as $t),
+                    &json::Json::U64(value) => Ok(value as $t),
+                    &json::Json::F64(value) => Ok(value as $t),
                     _ => Err(FromJsonError::ExpectError("integer", input.clone()))
                 }
             }
@@ -80,7 +80,7 @@ number_impl!(f64)
 impl FromJson for bool {
     fn from_json(input: &json::Json) -> Result<bool, FromJsonError> {
         match input {
-            &json::Boolean(value) => Ok(value),
+            &json::Json::Boolean(value) => Ok(value),
             _ => Err(FromJsonError::ExpectError("boolean", input.clone()))
         }
     }
@@ -89,7 +89,7 @@ impl FromJson for bool {
 impl FromJson for String {
     fn from_json(input: &json::Json) -> Result<String, FromJsonError> {
         match input {
-            &json::String(ref value) => Ok(value.clone()),
+            &json::Json::String(ref value) => Ok(value.clone()),
             _ => Err(FromJsonError::ExpectError("string", input.clone()))
         }
     }
@@ -98,7 +98,7 @@ impl FromJson for String {
 impl<T: FromJson> FromJson for Option<T> {
     fn from_json(input: &json::Json) -> Result<Option<T>, FromJsonError> {
         match input {
-            &json::Null => return Ok(None),
+            &json::Json::Null => return Ok(None),
             _ => ()
         };
 

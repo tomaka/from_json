@@ -173,10 +173,10 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                                 Ok(value) => value,
                                 Err(e) => return Err(e)
                             },
-                            None => match ::from_json::FromJson::from_json(&::serialize::json::Null) {
+                            None => match ::from_json::FromJson::from_json(&::serialize::json::Json::Null) {
                                 Ok(value) => value,
-                                Err(::from_json::ExpectError(_, _)) => return Err(
-                                    ::from_json::FieldNotFound($json_name, $input_param.clone())),
+                                Err(::from_json::FromJsonError::ExpectError(_, _)) => return Err(
+                                    ::from_json::FromJsonError::FieldNotFound($json_name, $input_param.clone())),
                                 Err(e) => return Err(e)
                             }
                         }
@@ -199,7 +199,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                 if $input_param.is_object() {
                     Ok($struct_def)
                 } else {
-                    Err(::from_json::ExpectError($struct_name, $input_param.clone()))
+                    Err(::from_json::FromJsonError::ExpectError($struct_name, $input_param.clone()))
                 }
             )
         },
