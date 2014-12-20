@@ -61,20 +61,20 @@ macro_rules! number_impl(
             }
         }
     )
-)
+);
 
-number_impl!(int)
-number_impl!(uint)
-number_impl!(u8)
-number_impl!(i8)
-number_impl!(u16)
-number_impl!(i16)
-number_impl!(u32)
-number_impl!(i32)
-number_impl!(u64)
-number_impl!(i64)
-number_impl!(f32)
-number_impl!(f64)
+number_impl!(int);
+number_impl!(uint);
+number_impl!(u8);
+number_impl!(i8);
+number_impl!(u16);
+number_impl!(i16);
+number_impl!(u32);
+number_impl!(i32);
+number_impl!(u64);
+number_impl!(i64);
+number_impl!(f32);
+number_impl!(f64);
 
 impl FromJson for bool {
     fn from_json(input: &json::Json) -> Result<bool, FromJsonError> {
