@@ -55,6 +55,7 @@ fn main() {
 
 #![feature(plugin_registrar)]
 #![feature(quote)]
+#![feature(unboxed_closures)]
 
 extern crate rustc;
 extern crate syntax;
@@ -77,7 +78,7 @@ pub fn registrar(registry: &mut rustc::plugin::Registry) {
 
 pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                      meta_item: &ast::MetaItem, item: &ast::Item,
-                     push: |P<ast::Item>|)
+                     mut push: Box<FnMut(P<ast::Item>)>)
 {
     generic::TraitDef {
         span: span,
@@ -122,7 +123,7 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                 combine_substructure: generic::combine_substructure(expand_struct_body),
             },
         ],
-    }.expand(ecx, meta_item, item, |i| push(i));
+    }.expand(ecx, meta_item, item, |i| push.call_mut((i,)));
 }
 
 fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
