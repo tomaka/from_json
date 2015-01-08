@@ -9,7 +9,6 @@ See the documentation of `from_json_macros` for a real-life example.
 
 */
 
-#![feature(macro_rules)]
 #![deny(missing_docs)]
 #![deny(warnings)]
 
@@ -19,7 +18,7 @@ use serialize::json;
 use std::collections::HashMap;
 
 /// Error that can be triggered while building an object from Json.
-#[deriving(Show)]
+#[derive(Show)]
 pub enum FromJsonError {
     /// The decoder expected an element of a type and got another type.
     ///

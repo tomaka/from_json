@@ -120,7 +120,7 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                     true
                 )),
                 attributes: vec![],
-                combine_substructure: generic::combine_substructure(expand_struct_body),
+                combine_substructure: generic::combine_substructure(box expand_struct_body),
             },
         ],
     }.expand(ecx, meta_item, item, |i| push.call_mut((i,)));
