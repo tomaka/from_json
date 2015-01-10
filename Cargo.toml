@@ -3,5 +3,8 @@ name = "from_json"
 version = "0.0.1"
 authors = ["Pierre Krieger <pierre.krieger1708@gmail.com>"]
 
+[dependencies.rustc-serialize]
+version = "*"
+
 [dependencies.from_json_macros]
 path = "macros"

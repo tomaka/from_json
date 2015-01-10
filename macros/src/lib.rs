@@ -73,7 +73,7 @@ use syntax::ptr::P;
 pub fn registrar(registry: &mut rustc::plugin::Registry) {
     use syntax::parse::token;
     registry.register_syntax_extension(token::intern("from_json_struct"),
-        syntax::ext::base::Decorator(box expand_struct));
+        syntax::ext::base::Decorator(Box::new(expand_struct)));
 }
 
 pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
@@ -98,12 +98,12 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                 explicit_self: None,
                 args: vec![
                     generic::ty::Ptr(
-                        box generic::ty::Literal(generic::ty::Path {
+                        Box::new(generic::ty::Literal(generic::ty::Path {
                             path: vec!["serialize", "json", "Json"],
                             lifetime: None,
                             params: vec![],
                             global: false,
-                        }),
+                        })),
                         generic::ty::Borrowed(None, syntax::ast::MutImmutable)
                     )
                 ],
@@ -112,15 +112,15 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                     vec!["std", "result", "Result"],
                     None,
                     vec![
-                        box generic::ty::Self,
-                        box generic::ty::Literal(
-                            generic::ty::Path::new(vec!["from_json", "FromJsonError"])
-                        )
+                        Box::new(generic::ty::Self),
+                        Box::new(generic::ty::Literal(
+                                 generic::ty::Path::new(vec!["from_json", "FromJsonError"])
+                        ))
                     ],
                     true
                 )),
                 attributes: vec![],
-                combine_substructure: generic::combine_substructure(box expand_struct_body),
+                combine_substructure: generic::combine_substructure(Box::new(expand_struct_body)),
             },
         ],
     }.expand(ecx, meta_item, item, |i| push.call_mut((i,)));

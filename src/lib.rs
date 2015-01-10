@@ -9,6 +9,7 @@ See the documentation of `from_json_macros` for a real-life example.
 
 */
 
+#![allow(unstable)]
 #![deny(missing_docs)]
 #![deny(warnings)]
 
