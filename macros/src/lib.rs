@@ -89,6 +89,7 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
             params: Vec::new(),
             global: true,
         },
+        associated_types: Vec::new(),
         additional_bounds: Vec::new(),
         generics: generic::ty::LifetimeBounds::empty(),
         methods: vec![

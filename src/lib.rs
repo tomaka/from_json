@@ -63,8 +63,8 @@ macro_rules! number_impl(
     )
 );
 
-number_impl!(int);
-number_impl!(uint);
+number_impl!(isize);
+number_impl!(usize);
 number_impl!(u8);
 number_impl!(i8);
 number_impl!(u16);

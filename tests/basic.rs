@@ -8,7 +8,7 @@ extern crate serialize;
 
 #[from_json_struct]
 struct Test {
-    a: int,
+    a: isize,
     #[from_json_name = "real_b"]
     b: bool,
     c: Test2,
