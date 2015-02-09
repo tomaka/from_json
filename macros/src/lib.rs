@@ -158,7 +158,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                         })
                         .and_then(|value| {
                             match value.node {
-                                ast::LitStr(ref s, _) => Some(s.get().to_string()),
+                                ast::LitStr(ref s, _) => Some(s.to_string()),
                                 _ => {
                                     ecx.span_err(span.clone(), "from_json_name requires \
                                                                 a string literal");
@@ -166,7 +166,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                                 }
                             }
                         })
-                        .unwrap_or(ident_str.get().to_string());
+                        .unwrap_or(ident_str.to_string());
                     let json_name = json_name.as_slice();
 
                     let member_assign = quote_expr!(ecx, {
