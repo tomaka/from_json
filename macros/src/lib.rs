@@ -113,7 +113,7 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                     vec!["std", "result", "Result"],
                     None,
                     vec![
-                        Box::new(generic::ty::Self),
+                        Box::new(generic::ty::Self_),
                         Box::new(generic::ty::Literal(
                                  generic::ty::Path::new(vec!["from_json", "FromJsonError"])
                         ))
