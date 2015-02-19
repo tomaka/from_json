@@ -78,7 +78,7 @@ pub fn registrar(registry: &mut rustc::plugin::Registry) {
 
 pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                      meta_item: &ast::MetaItem, item: &ast::Item,
-                     mut push: Box<FnMut(P<ast::Item>)>)
+                     push: &mut FnMut(P<ast::Item>))
 {
     generic::TraitDef {
         span: span,
