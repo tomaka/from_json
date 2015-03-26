@@ -55,6 +55,7 @@ fn main() {
 
 #![feature(plugin_registrar)]
 #![feature(quote)]
+#![feature(rustc_private)]
 #![feature(unboxed_closures)]
 
 extern crate rustc;
@@ -124,7 +125,7 @@ pub fn expand_struct(ecx: &mut base::ExtCtxt, span: codemap::Span,
                 combine_substructure: generic::combine_substructure(Box::new(expand_struct_body)),
             },
         ],
-    }.expand(ecx, meta_item, item, |i| push.call_mut((i,)));
+    }.expand(ecx, meta_item, item, |i| push(i));
 }
 
 fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
@@ -135,7 +136,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
     let input_param = substr.nonself_args[0].clone();
 
     let struct_name = format!("object {}", substr.type_ident.as_str());
-    let struct_name = struct_name.as_slice();
+    let struct_name = &struct_name[..];
 
     match substr.fields {
         &generic::StaticStruct(ref definition, generic::Named(_)) => {
@@ -167,7 +168,7 @@ fn expand_struct_body(ecx: &mut base::ExtCtxt, span: codemap::Span,
                             }
                         })
                         .unwrap_or(ident_str.to_string());
-                    let json_name = json_name.as_slice();
+                    let json_name = &json_name[..];
 
                     let member_assign = quote_expr!(ecx, {
                         match $input_param.find($json_name) {

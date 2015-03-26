@@ -9,17 +9,16 @@ See the documentation of `from_json_macros` for a real-life example.
 
 */
 
-#![allow(unstable)]
 #![deny(missing_docs)]
 #![deny(warnings)]
 
-extern crate serialize;
+extern crate rustc_serialize as serialize;
 
 use serialize::json;
 use std::collections::HashMap;
 
 /// Error that can be triggered while building an object from Json.
-#[derive(Show)]
+#[derive(Debug)]
 pub enum FromJsonError {
     /// The decoder expected an element of a type and got another type.
     ///

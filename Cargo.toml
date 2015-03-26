@@ -6,3 +6,5 @@ authors = ["Pierre Krieger <pierre.krieger1708@gmail.com>"]
 [dependencies.rustc-serialize]
 version = "*"
 
+[dev-dependencies.from_json_macros]
+path = "macros"
