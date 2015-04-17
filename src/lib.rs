@@ -12,7 +12,7 @@ See the documentation of `from_json_macros` for a real-life example.
 
 extern crate rustc_serialize as serialize;
 
-pub use serialize::json::Json;
+pub use serialize::json::*;
 use std::collections::HashMap;
 
 /// Error that can be triggered while building an object from Json.
