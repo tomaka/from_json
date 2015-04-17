@@ -2,9 +2,7 @@
 name = "from_json"
 version = "0.0.1"
 authors = ["Pierre Krieger <pierre.krieger1708@gmail.com>"]
+license = "MIT"
 
 [dependencies.rustc-serialize]
-version = "*"
-
-[dev-dependencies.from_json_macros]
-path = "macros"
+version = "0.3"

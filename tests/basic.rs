@@ -1,31 +1,27 @@
-#![feature(custom_attribute)]
-#![feature(plugin)]
-
-#![plugin(from_json_macros)]
-
+#[macro_use]
 extern crate from_json;
-extern crate rustc_serialize as serialize;
 
-#[from_json_struct]
 struct Test {
     a: isize,
-    #[from_json_name = "real_b"]
     b: bool,
     c: Test2,
     d: Option<String>,
 }
 
-#[from_json_struct]
+derive_from_json!(Test, a, b as "real_b", c, d);
+
 struct Test2 {
     e: String,
     f: Option<bool>,
 }
 
+derive_from_json!(Test2, e, f);
+
 #[test]
 fn test() {
     use from_json::FromJson;
 
-    let json = serialize::json::Json::from_str(r#"{ "a": 5, "real_b": true, "c": { "e": "hello", "f": false } }"#).unwrap();
+    let json = from_json::Json::from_str(r#"{ "a": 5, "real_b": true, "c": { "e": "hello", "f": false } }"#).unwrap();
 
     let content: Test = FromJson::from_json(&json).unwrap();
 
