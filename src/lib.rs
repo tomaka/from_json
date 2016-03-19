@@ -30,7 +30,7 @@ pub enum FromJsonError {
 }
 
 /// Trait that attempts to read an object from a JSON object.
-pub trait FromJson {
+pub trait FromJson: Sized {
     /// Builds the object from JSON.
     fn from_json(&Json) -> Result<Self, FromJsonError>;
 }
